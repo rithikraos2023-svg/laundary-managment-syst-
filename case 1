@@ -1,0 +1,117 @@
+# -------------------------------
+# CASE 1: INITIAL SETUP
+# -------------------------------
+
+mkdir LibraryManagementSystem        # Create project folder
+cd LibraryManagementSystem           # Enter folder
+code .                               # Open in VS Code
+git init                             # Initialize Git repo
+
+echo "print('Library System')" > main.py   # Create Python file
+
+git status                           # Check file status
+git add main.py                      # Stage file
+git commit -m "Initial commit"       # Save first version
+
+
+# -------------------------------
+# CASE 2: TRACK CHANGES
+# -------------------------------
+
+echo "print('Student Module')" >> main.py   # Modify file
+
+git diff                             # Show changes
+git add main.py                      # Stage changes
+git commit -m "Updated student module"  # Save update
+git log                              # View commit history
+
+
+# -------------------------------
+# CASE 3: BRANCHING
+# -------------------------------
+
+git branch login-feature             # Create new branch
+git checkout login-feature           # Switch to branch
+
+echo "print('Login Feature')" >> main.py   # Add feature
+
+git add main.py                      # Stage
+git commit -m "Added login feature"  # Commit
+
+git checkout main                    # Switch back
+
+
+# -------------------------------
+# CASE 4: MERGING
+# -------------------------------
+
+git merge login-feature              # Merge branch into main
+cat main.py                          # Verify merged code
+
+
+# -------------------------------
+# CASE 5: REMOTE (GITHUB)
+# -------------------------------
+
+git remote add origin https://github.com/your-username/repo-name.git   # Link GitHub repo
+git push -u origin main           # Push code to GitHub
+
+
+# -------------------------------
+# CASE 6: UNDO MISTAKES
+# -------------------------------
+
+git diff                           # Check wrong changes
+git restore main.py                # Undo uncommitted changes
+
+
+# -------------------------------
+# CASE 7: MERGE CONFLICT
+# -------------------------------
+
+git checkout -b branch1            # Create branch1
+echo "branch1 change" >> main.py
+git commit -am "branch1 update"
+
+git checkout main
+git checkout -b branch2            # Create branch2
+echo "branch2 change" >> main.py
+git commit -am "branch2 update"
+
+git merge branch1                  # Merge → conflict happens
+
+# Manually edit file to fix conflict
+
+git add main.py
+git commit -m "Resolved conflict"
+
+
+# -------------------------------
+# CASE 8: GITIGNORE
+# -------------------------------
+
+echo "*.log" > .gitignore          # Ignore log files
+echo "*.tmp" >> .gitignore
+echo "__pycache__/" >> .gitignore
+
+git add .gitignore
+git commit -m "Added gitignore"
+
+
+# -------------------------------
+# CASE 9: COLLABORATION
+# -------------------------------
+
+git fetch                          # Get latest changes
+git pull origin main               # Update local repo
+
+
+# -------------------------------
+# CASE 10: FINAL RELEASE
+# -------------------------------
+
+git log                            # Review commits
+git push origin main               # Final push
+
+git tag v1.0                       # Create version tag
+git push origin v1.0               # Push release tag
