@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DevOps Lab</title>
+</head>
+<body>
+    <h1>Hello DevOps</h1>
+</body>
+</html>
+
+  Dockerfile //
+
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html
+EXPOSE 80
+
+  deployment.yaml
+
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myapp
+        ports:
+        - containerPort: 80
+
+
+
+  jenkins script ///
+
+
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "rithik254/html_demo"
+    }
+
+    stages {
+
+        stage('Clone Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/rithik281105-sketch/html_demos.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t %DOCKER_IMAGE% .'
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub',
+                        usernameVariable: 'USER',
+                        passwordVariable: 'PASS')]) {
+
+                    bat 'docker login -u %USER% -p %PASS%'
+                    bat 'docker push %DOCKER_IMAGE%'
+                }
+            }
+        }
+    }
+}
+
